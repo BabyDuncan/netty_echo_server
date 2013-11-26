@@ -12,6 +12,8 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
  * User: guohaozhao (guohaozhao116008@sohu-inc.com)
  * Date: 11/26/13 18:19
  * for http protocol support
+ * but this is not good in true http request handling because http will be discard into segments .
+ * use HttpAggregatorInitializer instead .
  */
 public class HttpDecoderEncoderInitializer extends ChannelInitializer<Channel> {
 
