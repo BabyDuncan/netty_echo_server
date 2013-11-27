@@ -15,6 +15,7 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
  * but this is not good in true http request handling because http will be discard into segments .
  * use HttpAggregatorInitializer instead .
  */
+@Deprecated
 public class HttpDecoderEncoderInitializer extends ChannelInitializer<Channel> {
 
     private final boolean client;
