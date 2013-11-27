@@ -19,7 +19,6 @@ public class SimpleNettyHttpHandler implements NettyHttpHandler {
 
     @Override
     public String handle(Map<String, String> parameters) {
-
         System.out.println(parameters);
         return "foobar";
     }
