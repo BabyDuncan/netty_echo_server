@@ -1,6 +1,7 @@
 package com.babyduncan;
 
 import com.babyduncan.internal.SimpleNettyHttpHandler;
+import com.babyduncan.restful.RestfulRegistryCenter;
 
 /**
  * User: guohaozhao (guohaozhao116008@sohu-inc.com)
@@ -13,7 +14,8 @@ public class SimpleHttpServer extends HttpServer {
     }
 
     public static void main(String... args) throws Exception {
-        new SimpleHttpServer(8082).register(SimpleNettyHttpHandler.urlMapping, new SimpleNettyHttpHandler()).start();
+        RestfulRegistryCenter.addRestfulMapping("/foobar/$name", "/foobar");
+        new SimpleHttpServer(8085).register(SimpleNettyHttpHandler.urlMapping, new SimpleNettyHttpHandler()).start();
     }
 
 }

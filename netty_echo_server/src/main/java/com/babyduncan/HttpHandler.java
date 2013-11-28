@@ -1,5 +1,6 @@
 package com.babyduncan;
 
+import com.babyduncan.restful.RestfulRegistryCenter;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -42,12 +43,28 @@ public class HttpHandler<T extends NettyHttpHandler> extends ChannelInboundHandl
             HttpRequest req = (HttpRequest) msg;
             System.out.println("request url is " + req.getUri());
             String mappingUri = req.getUri();
-            if (mappingUri.contains("?")) {
-                mappingUri = mappingUri.substring(0, mappingUri.indexOf("?"));
+            NettyHttpHandler nettyHttpHandler = null;
+            Map<String, String> requestParameters = new HashMap<String, String>();
+            if (req.getMethod().equals(HttpMethod.GET)) {
+                nettyHttpHandler = urlMapping.get(mappingUri);
+                requestParameters = getRequestParameters(req);
+                if (nettyHttpHandler == null) {
+                    if (mappingUri.contains("?")) {
+                        mappingUri = mappingUri.substring(0, mappingUri.indexOf("?"));
+                        nettyHttpHandler = urlMapping.get(mappingUri);
+                        requestParameters = getRequestParameters(req);
+                    } else {
+                        // handle restful url
+                        String realURL = RestfulRegistryCenter.getRealUrl(req.getUri(), requestParameters);
+                        if (realURL != null) {
+                            nettyHttpHandler = urlMapping.get(realURL);
+                        }
+                    }
+                }
+            } else {
+                nettyHttpHandler = urlMapping.get(mappingUri);
+                requestParameters = getRequestParameters(req);
             }
-            NettyHttpHandler nettyHttpHandler = urlMapping.get(mappingUri);
-
-            Map<String, String> requestParameters = getRequestParameters(req);
             if (nettyHttpHandler == null) {
                 result = "no mapping uri handler";
             } else {
