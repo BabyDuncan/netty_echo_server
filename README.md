@@ -1,7 +1,7 @@
 netty_echo_server
 =================
 
-an echo server implemented by netty
+an echo server implemented by netty , use jurlmapping (https://github.com/BabyDuncan/jurlMapping) for restful urls analyse .
 
 performance test :
 
